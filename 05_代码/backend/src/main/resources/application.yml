@@ -1,78 +1,14 @@
 server:
-  port: ${SERVER_PORT:8083}
-
+  port: 8083
 spring:
-  application:
-    name: java-backend
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3310}/${MYSQL_DB:swa}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-    username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:root}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3310/workflow?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: root123
+  jpa:
+    hibernate:
+      ddl-auto: update
   data:
     redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
-      database: ${REDIS_DB:0}
-      password: ${REDIS_PASSWORD:}
-      timeout: 5s
-  rabbitmq:
-    host: ${RABBITMQ_HOST:localhost}
-    port: ${RABBITMQ_PORT:5673}
-    username: ${RABBITMQ_USER:guest}
-    password: ${RABBITMQ_PASS:guest}
-  jackson:
-    time-zone: Asia/Shanghai
-    date-format: yyyy-MM-dd HH:mm:ss
-
-mybatis-plus:
-  configuration:
-    map-underscore-to-camel-case: true
-  global-config:
-    banner: false
-
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-
-security:
-  jwt:
-    # 生产必改：≥32 字节的随机密钥，走环境变量
-    secret: ${JWT_SECRET:dev-only-jwt-secret-0123456789abcdef0123456789}
-    expire-hours: ${JWT_EXPIRE_HOURS:12}
-  # 内部接口令牌（python-agent 调 /internal/**），生产必改
-  internal-token: ${INTERNAL_API_TOKEN:dev-only-internal-token}
-  # 凭据 AES 密钥：16/24/32 字节或 64 位 hex，生产必改
-  credential-aes-key: ${CREDENTIAL_AES_KEY:0123456789abcdef0123456789abcdef}
-
-integration:
-  python-agent-url: ${PYTHON_AGENT_URL:http://localhost:8085}
-
-mqtt:
-  broker-url: ${MQTT_BROKER_URL:tcp://localhost:1883}
-  client-id: ${MQTT_CLIENT_ID:swa-backend-main}
-
-engine:
-  worker:
-    concurrency: ${ENGINE_WORKER_CONCURRENCY:16}
-    prefetch: ${ENGINE_WORKER_PREFETCH:8}
-
-llm:
-  deepseek:
-    base-url: ${DEEPSEEK_BASE_URL:https://api.deepseek.com}
-    # 生产必填：DeepSeek 真实密钥，走环境变量
-    api-key: ${DEEPSEEK_API_KEY:}
-  dashscope:
-    base-url: ${DASHSCOPE_BASE_URL:https://dashscope.aliyuncs.com/compatible-mode/v1}
-    api-key: ${DASHSCOPE_API_KEY:}
-    model: ${DASHSCOPE_MODEL:qwen-plus}
-  # taskType → provider 路由表
-  routes:
-    nl2flow: ${LLM_ROUTE_NL2FLOW:dashscope}
-    agent_reasoning: ${LLM_ROUTE_AGENT:dashscope}
-  # provider 单价（每 1K token，元）。占位价，以实际合同价为准
-  price:
-    deepseek: ${LLM_PRICE_DEEPSEEK:0.002}
-    dashscope: ${LLM_PRICE_DASHSCOPE:0.004}
-    openai-mock: ${LLM_PRICE_OPENAI_MOCK:0.010}
-    claude-mock: ${LLM_PRICE_CLAUDE_MOCK:0.020}
+      host: localhost
+      port: 6381
