@@ -1,0 +1,15 @@
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "id": 8,
+    "tenantId": null,
+    "workflowId": 8,
+    "versionNo": 1,
+    "dslJson": "{\"nodes\":[{\"id\":\"t1\",\"type\":\"mqtt-trigger\",\"name\":\"温度消息\",\"config\":{}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"超温判断\",\"config\":{\"expression\":\"t1.payload.temp > 80\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"告警\",\"config\":{\"url\":\"https://example.com/alarm\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"temp\\\":\\\"{{t1.payload.temp}}\\\"}\",\"timeoutMs\":10000}},{\"id\":\"d1\",\"type\":\"code\",\"name\":\"记录温度\",\"config\":{\"expression\":\"t1.payload.temp\"}}],\"edges\":[{\"source\":\"t1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"d1\",\"branch\":\"false\"}]}",
+    "status": "draft",
+    "deleted": null,
+    "createdAt": null,
+    "updatedAt": null
+  }
+}

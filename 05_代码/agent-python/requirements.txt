@@ -1,0 +1,8 @@
+# python-agent 运行时依赖（R2 降级后：去掉 crewai，避免其传递依赖与 fastapi/langgraph 冲突）
+fastapi==0.110.0
+uvicorn==0.31.1
+pydantic==2.11.10
+httpx==0.28.1
+loguru==0.7.2
+langgraph==1.2.18
+pyyaml==6.0.2

@@ -1,0 +1,49 @@
+# ===== 依赖与构建产物（不入库，可重装/重构建）=====
+**/node_modules/
+**/target/
+**/dist/
+**/build/
+*.jar
+!**/wrapper/*.jar
+
+# ===== Python =====
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.allure/
+.coverage
+htmlcov/
+
+# ===== 日志与运行时数据 =====
+*.log
+**/logs/
+**/runtime/
+**/data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# ===== 敏感配置（密钥/令牌绝不入库）=====
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ===== IDE / 系统 =====
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+.screenshots/
+
+# ===== 临时备份 =====
+*.bak
+*.tmp

@@ -1,0 +1,1 @@
+2026-10-31 22:38:42.516 | ERROR    | app.graph:_fail:61 - 节点 reviewer 失败: RuntimeError('boom')

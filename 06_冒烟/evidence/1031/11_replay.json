@@ -1,0 +1,19 @@
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "id": 14,
+    "tenantId": 1,
+    "versionId": 7,
+    "userId": 2,
+    "status": "SUCCESS",
+    "triggerType": "replay",
+    "triggerPayload": "{\"temp\": 88}",
+    "failReason": null,
+    "startedAt": "2026-10-31T18:52:02",
+    "endedAt": "2026-10-31T18:52:02",
+    "deleted": 0,
+    "createdAt": "2026-10-31T10:52:02",
+    "updatedAt": "2026-10-31T10:52:02"
+  }
+}

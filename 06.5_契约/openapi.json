@@ -1,0 +1,3102 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "saas-workflow-agent API",
+    "description": "SaaS 自动化工作流编排平台 java-backend 契约",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8083",
+      "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/v1/workflows/{id}": {
+      "get": {
+        "tags": [
+          "流程管理"
+        ],
+        "summary": "流程详情",
+        "operationId": "get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultWorkflow"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "流程管理"
+        ],
+        "summary": "更新流程",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkflowUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultWorkflow"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "流程管理"
+        ],
+        "summary": "删除流程",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultVoid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workflows/versions/{versionId}/publish": {
+      "put": {
+        "tags": [
+          "流程管理"
+        ],
+        "summary": "发布版本",
+        "operationId": "publish",
+        "parameters": [
+          {
+            "name": "versionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultWorkflowVersion"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workflows/versions/{versionId}/disable": {
+      "put": {
+        "tags": [
+          "流程管理"
+        ],
+        "summary": "禁用版本",
+        "operationId": "disable",
+        "parameters": [
+          {
+            "name": "versionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultWorkflowVersion"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{id}": {
+      "put": {
+        "tags": [
+          "用户管理"
+        ],
+        "summary": "更新用户",
+        "operationId": "update_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultUser"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "用户管理"
+        ],
+        "summary": "删除用户",
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultVoid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants/{id}": {
+      "put": {
+        "tags": [
+          "租户管理"
+        ],
+        "summary": "更新租户",
+        "operationId": "update_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultTenant"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "租户管理"
+        ],
+        "summary": "删除租户",
+        "operationId": "delete_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultVoid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants/{id}/quota": {
+      "put": {
+        "tags": [
+          "租户管理"
+        ],
+        "summary": "配置租户额度",
+        "operationId": "updateQuota",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuotaUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultVoid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mqtt/subscriptions/{id}": {
+      "get": {
+        "tags": [
+          "MQTT 订阅"
+        ],
+        "summary": "订阅详情",
+        "operationId": "get_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultMqttSubscription"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "MQTT 订阅"
+        ],
+        "summary": "更新订阅",
+        "operationId": "update_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MqttSubscriptionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultMqttSubscription"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "MQTT 订阅"
+        ],
+        "summary": "删除订阅",
+        "operationId": "delete_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultVoid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/credentials/{id}": {
+      "get": {
+        "tags": [
+          "连接器凭据"
+        ],
+        "summary": "凭据详情（脱敏）",
+        "operationId": "get_3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultConnectorCredential"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "连接器凭据"
+        ],
+        "summary": "更新凭据",
+        "operationId": "update_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredentialRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultConnectorCredential"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "连接器凭据"
+        ],
+        "summary": "删除凭据",
+        "operationId": "delete_4",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultVoid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/llm/chat": {
+      "post": {
+        "tags": [
+          "内部接口"
+        ],
+        "summary": "模型路由统一入口",
+        "operationId": "chat",
+        "parameters": [
+          {
+            "name": "X-Tenant-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LlmChatRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultLlmChatResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workflows": {
+      "get": {
+        "tags": [
+          "流程管理"
+        ],
+        "summary": "流程分页列表",
+        "operationId": "page",
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageWorkflow"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "流程管理"
+        ],
+        "summary": "创建流程",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkflowCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultWorkflow"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workflows/{id}/versions": {
+      "get": {
+        "tags": [
+          "流程管理"
+        ],
+        "summary": "版本列表",
+        "operationId": "versions",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageWorkflowVersion"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "流程管理"
+        ],
+        "summary": "保存新版本（DSL Schema 校验）",
+        "operationId": "saveVersion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VersionSaveRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultWorkflowVersion"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workflows/nl-draft": {
+      "post": {
+        "tags": [
+          "流程管理"
+        ],
+        "summary": "NL→流程草稿（L7）",
+        "operationId": "nlDraft",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NlDraftRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultWorkflowVersion"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "get": {
+        "tags": [
+          "用户管理"
+        ],
+        "summary": "用户分页列表",
+        "operationId": "page_1",
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          },
+          {
+            "name": "username",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageUser"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "用户管理"
+        ],
+        "summary": "创建用户",
+        "operationId": "create_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants": {
+      "get": {
+        "tags": [
+          "租户管理"
+        ],
+        "summary": "租户分页列表",
+        "operationId": "page_2",
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageTenant"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "租户管理"
+        ],
+        "summary": "创建租户",
+        "operationId": "create_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultTenant"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mqtt/subscriptions": {
+      "get": {
+        "tags": [
+          "MQTT 订阅"
+        ],
+        "summary": "订阅分页列表",
+        "operationId": "page_3",
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageMqttSubscription"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MQTT 订阅"
+        ],
+        "summary": "创建订阅（uk tenant+topic）",
+        "operationId": "create_3",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MqttSubscriptionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultMqttSubscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/executions": {
+      "get": {
+        "tags": [
+          "执行管理"
+        ],
+        "summary": "执行分页列表",
+        "operationId": "page_4",
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageExecution"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "执行管理"
+        ],
+        "summary": "创建执行（幂等：同 user+version+clientReqId 只建 1 个实例）",
+        "operationId": "create_4",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecutionCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultExecution"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/executions/{id}/replay": {
+      "post": {
+        "tags": [
+          "执行管理"
+        ],
+        "summary": "回放：按原参数重新触发，产生新实例",
+        "operationId": "replay",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultExecution"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/credentials": {
+      "get": {
+        "tags": [
+          "连接器凭据"
+        ],
+        "summary": "凭据分页列表",
+        "operationId": "page_5",
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageConnectorCredential"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "连接器凭据"
+        ],
+        "summary": "创建凭据（configJson 服务端 AES 加密入库）",
+        "operationId": "create_5",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredentialRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultConnectorCredential"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "认证"
+        ],
+        "summary": "登录签发 JWT",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultLoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workflows/versions/{versionId}": {
+      "get": {
+        "tags": [
+          "流程管理"
+        ],
+        "summary": "版本详情",
+        "operationId": "getVersion",
+        "parameters": [
+          {
+            "name": "versionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultWorkflowVersion"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quota": {
+      "get": {
+        "tags": [
+          "额度与计量"
+        ],
+        "summary": "当前租户额度（DB + Redis 实时剩余）",
+        "operationId": "myQuota",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultMapStringObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quota/llm-calls": {
+      "get": {
+        "tags": [
+          "额度与计量"
+        ],
+        "summary": "LLM 调用台账分页",
+        "operationId": "llmCalls",
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageLlmCallLog"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quota/audit-logs": {
+      "get": {
+        "tags": [
+          "额度与计量"
+        ],
+        "summary": "审计日志分页（仅 admin）",
+        "operationId": "auditLogs",
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageAuditLog"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/executions/{id}": {
+      "get": {
+        "tags": [
+          "执行管理"
+        ],
+        "summary": "执行详情",
+        "operationId": "get_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultExecution"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/executions/{id}/nodes": {
+      "get": {
+        "tags": [
+          "执行管理"
+        ],
+        "summary": "节点快照（SSE 断线续订先拉快照）",
+        "operationId": "nodes",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListNodeExecution"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/executions/{id}/events": {
+      "get": {
+        "tags": [
+          "执行管理"
+        ],
+        "summary": "执行实时事件流（SSE：node/execution 事件）",
+        "operationId": "events",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/SseEmitter"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": [
+          "认证"
+        ],
+        "summary": "当前登录用户",
+        "operationId": "me",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultLoginUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "WorkflowUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 128,
+            "minLength": 0,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string"
+          }
+        }
+      },
+      "ResultWorkflow": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Workflow"
+          }
+        }
+      },
+      "Workflow": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "deleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ResultWorkflowVersion": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/WorkflowVersion"
+          }
+        }
+      },
+      "WorkflowVersion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "workflowId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "versionNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dslJson": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "deleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UserUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "role": {
+            "pattern": "admin|dev|viewer",
+            "type": "string"
+          },
+          "status": {
+            "pattern": "active|disabled",
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 128,
+            "minLength": 8,
+            "type": "string"
+          }
+        }
+      },
+      "ResultUser": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "passwordHash": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "deleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "TenantRequest": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "status": {
+            "maxLength": 16,
+            "minLength": 0,
+            "type": "string"
+          },
+          "tokenTotal": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultTenant": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Tenant"
+          }
+        }
+      },
+      "Tenant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "deleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "QuotaUpdateRequest": {
+        "required": [
+          "tokenTotal"
+        ],
+        "type": "object",
+        "properties": {
+          "tokenTotal": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultVoid": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "MqttSubscriptionRequest": {
+        "required": [
+          "topic",
+          "workflowVersionId"
+        ],
+        "type": "object",
+        "properties": {
+          "topic": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string"
+          },
+          "workflowVersionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "pattern": "active|disabled",
+            "type": "string"
+          }
+        }
+      },
+      "MqttSubscription": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "topic": {
+            "type": "string"
+          },
+          "workflowVersionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "string"
+          },
+          "deleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ResultMqttSubscription": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/MqttSubscription"
+          }
+        }
+      },
+      "CredentialRequest": {
+        "required": [
+          "configJson",
+          "connectorType",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "connectorType": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "configJson": {
+            "type": "string"
+          }
+        }
+      },
+      "ConnectorCredential": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "connectorType": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "configJson": {
+            "type": "string"
+          },
+          "deleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ResultConnectorCredential": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ConnectorCredential"
+          }
+        }
+      },
+      "LlmChatRequest": {
+        "required": [
+          "messages",
+          "taskType"
+        ],
+        "type": "object",
+        "properties": {
+          "taskType": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "provider": {
+            "type": "string"
+          }
+        }
+      },
+      "LlmChatResponse": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "promptTokens": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "completionTokens": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ResultLlmChatResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/LlmChatResponse"
+          }
+        }
+      },
+      "WorkflowCreateRequest": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 128,
+            "minLength": 0,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 512,
+            "minLength": 0,
+            "type": "string"
+          }
+        }
+      },
+      "VersionSaveRequest": {
+        "required": [
+          "dslJson"
+        ],
+        "type": "object",
+        "properties": {
+          "dslJson": {
+            "type": "string"
+          }
+        }
+      },
+      "NlDraftRequest": {
+        "required": [
+          "text"
+        ],
+        "type": "object",
+        "properties": {
+          "text": {
+            "maxLength": 2000,
+            "minLength": 0,
+            "type": "string"
+          },
+          "workflowName": {
+            "maxLength": 128,
+            "minLength": 0,
+            "type": "string"
+          }
+        }
+      },
+      "UserCreateRequest": {
+        "required": [
+          "password",
+          "role",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 128,
+            "minLength": 8,
+            "type": "string"
+          },
+          "displayName": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "role": {
+            "pattern": "admin|dev|viewer",
+            "type": "string"
+          }
+        }
+      },
+      "ExecutionCreateRequest": {
+        "required": [
+          "clientReqId",
+          "versionId"
+        ],
+        "type": "object",
+        "properties": {
+          "versionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "clientReqId": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "triggerPayload": {
+            "type": "string"
+          }
+        }
+      },
+      "Execution": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "versionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "string"
+          },
+          "triggerType": {
+            "type": "string"
+          },
+          "triggerPayload": {
+            "type": "string"
+          },
+          "failReason": {
+            "type": "string"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ResultExecution": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Execution"
+          }
+        }
+      },
+      "LoginRequest": {
+        "required": [
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 128,
+            "minLength": 0,
+            "type": "string"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        }
+      },
+      "ResultLoginResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/LoginResponse"
+          }
+        }
+      },
+      "OrderItem": {
+        "type": "object",
+        "properties": {
+          "column": {
+            "type": "string"
+          },
+          "asc": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageWorkflow": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Workflow"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "array",
+            "writeOnly": true,
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "optimizeCountSql": {
+            "$ref": "#/components/schemas/PageWorkflow"
+          },
+          "searchCount": {
+            "$ref": "#/components/schemas/PageWorkflow"
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "writeOnly": true
+          },
+          "maxLimit": {
+            "type": "integer",
+            "format": "int64",
+            "writeOnly": true
+          },
+          "countId": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultPageWorkflow": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageWorkflow"
+          }
+        }
+      },
+      "PageWorkflowVersion": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkflowVersion"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "array",
+            "writeOnly": true,
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "optimizeCountSql": {
+            "$ref": "#/components/schemas/PageWorkflowVersion"
+          },
+          "searchCount": {
+            "$ref": "#/components/schemas/PageWorkflowVersion"
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "writeOnly": true
+          },
+          "maxLimit": {
+            "type": "integer",
+            "format": "int64",
+            "writeOnly": true
+          },
+          "countId": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultPageWorkflowVersion": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageWorkflowVersion"
+          }
+        }
+      },
+      "PageUser": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "array",
+            "writeOnly": true,
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "optimizeCountSql": {
+            "$ref": "#/components/schemas/PageUser"
+          },
+          "searchCount": {
+            "$ref": "#/components/schemas/PageUser"
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "writeOnly": true
+          },
+          "maxLimit": {
+            "type": "integer",
+            "format": "int64",
+            "writeOnly": true
+          },
+          "countId": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultPageUser": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageUser"
+          }
+        }
+      },
+      "PageTenant": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tenant"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "array",
+            "writeOnly": true,
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "optimizeCountSql": {
+            "$ref": "#/components/schemas/PageTenant"
+          },
+          "searchCount": {
+            "$ref": "#/components/schemas/PageTenant"
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "writeOnly": true
+          },
+          "maxLimit": {
+            "type": "integer",
+            "format": "int64",
+            "writeOnly": true
+          },
+          "countId": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultPageTenant": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageTenant"
+          }
+        }
+      },
+      "ResultMapStringObject": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "LlmCallLog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "taskType": {
+            "type": "string"
+          },
+          "promptTokens": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "completionTokens": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cost": {
+            "type": "number"
+          },
+          "latencyMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PageLlmCallLog": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LlmCallLog"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "array",
+            "writeOnly": true,
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "optimizeCountSql": {
+            "$ref": "#/components/schemas/PageLlmCallLog"
+          },
+          "searchCount": {
+            "$ref": "#/components/schemas/PageLlmCallLog"
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "writeOnly": true
+          },
+          "maxLimit": {
+            "type": "integer",
+            "format": "int64",
+            "writeOnly": true
+          },
+          "countId": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultPageLlmCallLog": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageLlmCallLog"
+          }
+        }
+      },
+      "AuditLog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "action": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "ip": {
+            "type": "string"
+          },
+          "deleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PageAuditLog": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuditLog"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "array",
+            "writeOnly": true,
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "optimizeCountSql": {
+            "$ref": "#/components/schemas/PageAuditLog"
+          },
+          "searchCount": {
+            "$ref": "#/components/schemas/PageAuditLog"
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "writeOnly": true
+          },
+          "maxLimit": {
+            "type": "integer",
+            "format": "int64",
+            "writeOnly": true
+          },
+          "countId": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultPageAuditLog": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageAuditLog"
+          }
+        }
+      },
+      "PageMqttSubscription": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MqttSubscription"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "array",
+            "writeOnly": true,
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "optimizeCountSql": {
+            "$ref": "#/components/schemas/PageMqttSubscription"
+          },
+          "searchCount": {
+            "$ref": "#/components/schemas/PageMqttSubscription"
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "writeOnly": true
+          },
+          "maxLimit": {
+            "type": "integer",
+            "format": "int64",
+            "writeOnly": true
+          },
+          "countId": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultPageMqttSubscription": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageMqttSubscription"
+          }
+        }
+      },
+      "PageExecution": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Execution"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "array",
+            "writeOnly": true,
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "optimizeCountSql": {
+            "$ref": "#/components/schemas/PageExecution"
+          },
+          "searchCount": {
+            "$ref": "#/components/schemas/PageExecution"
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "writeOnly": true
+          },
+          "maxLimit": {
+            "type": "integer",
+            "format": "int64",
+            "writeOnly": true
+          },
+          "countId": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultPageExecution": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageExecution"
+          }
+        }
+      },
+      "NodeExecution": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "executionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nodeId": {
+            "type": "string"
+          },
+          "nodeType": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "inputJson": {
+            "type": "string"
+          },
+          "outputJson": {
+            "type": "string"
+          },
+          "retryLog": {
+            "type": "string"
+          },
+          "errorMessage": {
+            "type": "string"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ResultListNodeExecution": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NodeExecution"
+            }
+          }
+        }
+      },
+      "SseEmitter": {
+        "type": "object",
+        "properties": {
+          "timeout": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "PageConnectorCredential": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConnectorCredential"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "array",
+            "writeOnly": true,
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "optimizeCountSql": {
+            "$ref": "#/components/schemas/PageConnectorCredential"
+          },
+          "searchCount": {
+            "$ref": "#/components/schemas/PageConnectorCredential"
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "writeOnly": true
+          },
+          "maxLimit": {
+            "type": "integer",
+            "format": "int64",
+            "writeOnly": true
+          },
+          "countId": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultPageConnectorCredential": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageConnectorCredential"
+          }
+        }
+      },
+      "LoginUser": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        }
+      },
+      "ResultLoginUser": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/LoginUser"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

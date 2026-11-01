@@ -1,0 +1,15 @@
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "id": 7,
+    "tenantId": null,
+    "workflowId": 7,
+    "versionNo": 1,
+    "dslJson": "{\"nodes\": [{\"id\": \"t1\", \"type\": \"mqtt-trigger\", \"name\": \"temp-msg\", \"config\": {}}, {\"id\": \"c1\", \"type\": \"condition\", \"name\": \"over80\", \"config\": {\"expression\": \"t1.payload.temp > 80\"}}, {\"id\": \"h1\", \"type\": \"http\", \"name\": \"alarm\", \"config\": {\"url\": \"http://127.0.0.1:8083/actuator/health\", \"method\": \"GET\", \"timeoutMs\": 10000}}, {\"id\": \"d1\", \"type\": \"code\", \"name\": \"log-temp\", \"config\": {\"expression\": \"t1.payload.temp\"}}], \"edges\": [{\"source\": \"t1\", \"target\": \"c1\"}, {\"source\": \"c1\", \"target\": \"h1\", \"branch\": \"true\"}, {\"source\": \"c1\", \"target\": \"d1\", \"branch\": \"false\"}]}",
+    "status": "draft",
+    "deleted": null,
+    "createdAt": null,
+    "updatedAt": null
+  }
+}

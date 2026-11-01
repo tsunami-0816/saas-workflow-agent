@@ -1,0 +1,593 @@
+{
+  "run_at": "2026-10-31 21:49:40",
+  "total": 14,
+  "passed": 14,
+  "seconds": 62.5,
+  "cases": [
+    {
+      "id": "L-01",
+      "title": "认证与权限矩阵",
+      "passed": true,
+      "seconds": 0.35,
+      "checks": [
+        {
+          "name": "三角色+跨租户 4 账号登录",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "无 token 访问 → 401",
+          "ok": true,
+          "detail": "status=401"
+        },
+        {
+          "name": "viewer 创建流程 → 403/10403",
+          "ok": true,
+          "detail": "403 10403"
+        },
+        {
+          "name": "viewer 查审计日志 → 403/10403",
+          "ok": true,
+          "detail": "403 10403"
+        }
+      ]
+    },
+    {
+      "id": "L-02",
+      "title": "流程 CRUD + 审计",
+      "passed": true,
+      "seconds": 0.59,
+      "checks": [
+        {
+          "name": "创建后详情可读",
+          "ok": true,
+          "detail": "0"
+        },
+        {
+          "name": "BUG-001 回填 tenantId",
+          "ok": true,
+          "detail": "1"
+        },
+        {
+          "name": "更新流程成功",
+          "ok": true,
+          "detail": "0"
+        },
+        {
+          "name": "列表按名称搜索命中",
+          "ok": true,
+          "detail": "1"
+        },
+        {
+          "name": "删除流程成功",
+          "ok": true,
+          "detail": "0"
+        },
+        {
+          "name": "删除后详情 → 20001",
+          "ok": true,
+          "detail": "20001"
+        },
+        {
+          "name": "审计 workflow.create +1",
+          "ok": true,
+          "detail": "14->15"
+        },
+        {
+          "name": "审计 workflow.update +1",
+          "ok": true,
+          "detail": "1->2"
+        },
+        {
+          "name": "审计 workflow.delete +1",
+          "ok": true,
+          "detail": "1->2"
+        },
+        {
+          "name": "DB 逻辑删 deleted=1",
+          "ok": true,
+          "detail": ""
+        }
+      ]
+    },
+    {
+      "id": "L-03",
+      "title": "DSL 负向校验",
+      "passed": true,
+      "seconds": 0.08,
+      "checks": [
+        {
+          "name": "环形依赖 → 20002",
+          "ok": true,
+          "detail": "20002"
+        },
+        {
+          "name": "未知节点类型 → 20003",
+          "ok": true,
+          "detail": "20003"
+        },
+        {
+          "name": "连线指向不存在节点 → 20005",
+          "ok": true,
+          "detail": "20005"
+        }
+      ]
+    },
+    {
+      "id": "L-04",
+      "title": "版本状态门槛",
+      "passed": true,
+      "seconds": 0.27,
+      "checks": [
+        {
+          "name": "draft 版本不可执行 → 20009",
+          "ok": true,
+          "detail": "20009"
+        },
+        {
+          "name": "发布 draft→published",
+          "ok": true,
+          "detail": "published"
+        },
+        {
+          "name": "禁用 published→disabled",
+          "ok": true,
+          "detail": "disabled"
+        },
+        {
+          "name": "disabled 版本不可执行 → 20008",
+          "ok": true,
+          "detail": "20008"
+        },
+        {
+          "name": "DB 版本状态一致",
+          "ok": true,
+          "detail": "[['disabled']]"
+        }
+      ]
+    },
+    {
+      "id": "L-05",
+      "title": "主执行链/幂等/SSE/回放",
+      "passed": true,
+      "seconds": 9.64,
+      "checks": [
+        {
+          "name": "true 分支执行 SUCCESS",
+          "ok": true,
+          "detail": "SUCCESS"
+        },
+        {
+          "name": "c1 判定 branch=true",
+          "ok": true,
+          "detail": "{'branch': True}"
+        },
+        {
+          "name": "h1 SUCCESS / d1 SKIPPED",
+          "ok": true,
+          "detail": "h1=SUCCESS d1=SKIPPED"
+        },
+        {
+          "name": "DB 执行行租户/终态/结束时间",
+          "ok": true,
+          "detail": "[['1', 'SUCCESS', 'NULL', '2026-10-31 21:48:39']]"
+        },
+        {
+          "name": "DB 节点行数=4",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "同 clientReqId 幂等复用实例",
+          "ok": true,
+          "detail": "0 id=30"
+        },
+        {
+          "name": "SSE 收到 connected",
+          "ok": true,
+          "detail": "{'execution', 'node', 'connected'}"
+        },
+        {
+          "name": "SSE 收到 node/execution 事件",
+          "ok": true,
+          "detail": "{'execution', 'node', 'connected'}"
+        },
+        {
+          "name": "false 分支 d1 SUCCESS / h1 SKIPPED",
+          "ok": true,
+          "detail": "d1=SUCCESS h1=SKIPPED"
+        },
+        {
+          "name": "回放创建新实例",
+          "ok": true,
+          "detail": "0 rid=32"
+        },
+        {
+          "name": "回放保留触发参数",
+          "ok": true,
+          "detail": "{\"temp\": 95}"
+        }
+      ]
+    },
+    {
+      "id": "L-06",
+      "title": "延时节点 WAITING→恢复",
+      "passed": true,
+      "seconds": 3.54,
+      "checks": [
+        {
+          "name": "1.2s 时执行 WAITING",
+          "ok": true,
+          "detail": "WAITING"
+        },
+        {
+          "name": "delay1 节点 WAITING",
+          "ok": true,
+          "detail": "WAITING"
+        },
+        {
+          "name": "延时到点后执行 SUCCESS",
+          "ok": true,
+          "detail": "SUCCESS"
+        },
+        {
+          "name": "delay1 SUCCESS 且 resumed=true",
+          "ok": true,
+          "detail": "SUCCESS {'resumed': True}"
+        },
+        {
+          "name": "下游 d1 SUCCESS",
+          "ok": true,
+          "detail": "SUCCESS"
+        },
+        {
+          "name": "恢复总时延 2.5~20s",
+          "ok": true,
+          "detail": "3.46s"
+        }
+      ]
+    },
+    {
+      "id": "L-07",
+      "title": "节点失败路径",
+      "passed": true,
+      "seconds": 7.31,
+      "checks": [
+        {
+          "name": "执行收敛 FAILED",
+          "ok": true,
+          "detail": "FAILED"
+        },
+        {
+          "name": "failReason=node_failed",
+          "ok": true,
+          "detail": "node_failed"
+        },
+        {
+          "name": "h1 节点 FAILED",
+          "ok": true,
+          "detail": "FAILED"
+        },
+        {
+          "name": "h1 errorMessage 非空",
+          "ok": true,
+          "detail": "HTTP 节点调用失败: I/O error on GET request for \"http://127.0.0.1:65535/x\": Connection refused: getsockopt"
+        },
+        {
+          "name": "重试记录 ≥2 次",
+          "ok": true,
+          "detail": "4"
+        }
+      ]
+    },
+    {
+      "id": "L-08",
+      "title": "Agent 全链 + 计量一致性",
+      "passed": true,
+      "seconds": 28.73,
+      "checks": [
+        {
+          "name": "Agent 执行 SUCCESS",
+          "ok": true,
+          "detail": "SUCCESS None"
+        },
+        {
+          "name": "a1 SUCCESS",
+          "ok": true,
+          "detail": "SUCCESS"
+        },
+        {
+          "name": "a1 含 reasoning",
+          "ok": true,
+          "detail": "[{'step': 1, 'node': 'planner', 'thought': '先理解任务与约束，制定分步执行计划', 'action': 'Plann"
+        },
+        {
+          "name": "a1 含 durationMs",
+          "ok": true,
+          "detail": "27447"
+        },
+        {
+          "name": "新增 LLM 台账 ≥1 行",
+          "ok": true,
+          "detail": "3"
+        },
+        {
+          "name": "台账归租=1 且 dashscope",
+          "ok": true,
+          "detail": "[['1', 'dashscope', 'qwen-plus', 'agent_reasoning', '173', '395'], ['1', 'dashscope', 'qwen-plus', 'agent_reasoning', '562', '679'], ['1', 'dashscope', 'qwen-plus', 'agent_reasoning', '1231', '125']]"
+        },
+        {
+          "name": "tenant_quota.token_used 增量=台账 token 增量",
+          "ok": true,
+          "detail": "18947->22112 vs 3165"
+        },
+        {
+          "name": "Redis 余额下降=台账 token 增量",
+          "ok": true,
+          "detail": "981053->977888 vs 3165"
+        }
+      ]
+    },
+    {
+      "id": "L-09",
+      "title": "NL 生成全链",
+      "passed": true,
+      "seconds": 4.47,
+      "checks": [
+        {
+          "name": "NL-draft code=0",
+          "ok": true,
+          "detail": "0 ok"
+        },
+        {
+          "name": "生成 DSL 可解析且含节点/边",
+          "ok": true,
+          "detail": "nodes=4 edges=3"
+        },
+        {
+          "name": "版本为 draft",
+          "ok": true,
+          "detail": "draft"
+        },
+        {
+          "name": "回读版本 dslJson 一致",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "新增 nl2flow 台账",
+          "ok": true,
+          "detail": "1"
+        }
+      ]
+    },
+    {
+      "id": "L-10",
+      "title": "MQTT 订阅+e2e+停用",
+      "passed": true,
+      "seconds": 6.43,
+      "checks": [
+        {
+          "name": "创建订阅成功",
+          "ok": true,
+          "detail": "0 ok"
+        },
+        {
+          "name": "重复 topic 冲突",
+          "ok": true,
+          "detail": "参数错误: topic 已存在: link/214837/temperature"
+        },
+        {
+          "name": "MQTT 消息创建执行",
+          "ok": true,
+          "detail": "eid=36"
+        },
+        {
+          "name": "M6 触发时延 ≤5s",
+          "ok": true,
+          "detail": "0.03s"
+        },
+        {
+          "name": "MQTT 执行走到 h1",
+          "ok": true,
+          "detail": "SUCCESS"
+        },
+        {
+          "name": "订阅改为停用",
+          "ok": true,
+          "detail": "0 disabled"
+        },
+        {
+          "name": "停用后不再触发",
+          "ok": true,
+          "detail": "36->36"
+        },
+        {
+          "name": "删除订阅",
+          "ok": true,
+          "detail": "0"
+        }
+      ]
+    },
+    {
+      "id": "L-11",
+      "title": "额度/台账/审计接口",
+      "passed": true,
+      "seconds": 0.24,
+      "checks": [
+        {
+          "name": "额度 tokenUsed=DB",
+          "ok": true,
+          "detail": "22870 vs 22870"
+        },
+        {
+          "name": "额度 remain=total-used",
+          "ok": true,
+          "detail": "{'tenantId': 1, 'tokenTotal': 1000000, 'tokenUsed': 22870, 'tokenRemainRedis': 977130}"
+        },
+        {
+          "name": "Redis 余额键=接口值",
+          "ok": true,
+          "detail": "977130"
+        },
+        {
+          "name": "台账分页返回本租户",
+          "ok": true,
+          "detail": "10"
+        },
+        {
+          "name": "台账含 provider/model/cost",
+          "ok": true,
+          "detail": "{'id': 24, 'tenantId': 1, 'userId': 2, 'provider': 'dashscope', 'model': 'qwen-plus', 'taskType': 'nl2flow', 'promptTokens': 587, 'completionTokens': 171, 'cost': 0.003032, 'latencyMs': 4066, 'deleted': 0, 'createdAt': '2026-10-31T13:49:32', 'updatedAt': '2026-10-31T13:49:32'}"
+        },
+        {
+          "name": "admin 审计日志可读",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "viewer 可读额度",
+          "ok": true,
+          "detail": "0"
+        }
+      ]
+    },
+    {
+      "id": "L-12",
+      "title": "内部接口鉴权",
+      "passed": true,
+      "seconds": 0.03,
+      "checks": [
+        {
+          "name": "无 X-Internal-Token → 401",
+          "ok": true,
+          "detail": "status=401"
+        }
+      ]
+    },
+    {
+      "id": "L-13",
+      "title": "跨租户隔离",
+      "passed": true,
+      "seconds": 0.39,
+      "checks": [
+        {
+          "name": "跨租户读流程 → 20001",
+          "ok": true,
+          "detail": "20001"
+        },
+        {
+          "name": "跨租户读执行 → 30001",
+          "ok": true,
+          "detail": "30001"
+        },
+        {
+          "name": "globex 创建流程 tenantId=2",
+          "ok": true,
+          "detail": "2"
+        },
+        {
+          "name": "globex 列表不含 acme 流程",
+          "ok": true,
+          "detail": "2"
+        }
+      ]
+    },
+    {
+      "id": "L-14",
+      "title": "租户/用户/凭据",
+      "passed": true,
+      "seconds": 0.4,
+      "checks": [
+        {
+          "name": "租户列表含 1/2",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "配置额度成功",
+          "ok": true,
+          "detail": "0"
+        },
+        {
+          "name": "额度 Redis 重算=total-used",
+          "ok": true,
+          "detail": "977130"
+        },
+        {
+          "name": "创建用户",
+          "ok": true,
+          "detail": "0 ok"
+        },
+        {
+          "name": "用户列表命中",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "删除用户",
+          "ok": true,
+          "detail": "0"
+        },
+        {
+          "name": "创建凭据",
+          "ok": true,
+          "detail": "0 ok"
+        },
+        {
+          "name": "凭据读取脱敏",
+          "ok": true,
+          "detail": "{'id': 3, 'tenantId': 1, 'connectorType': 'http', 'name': '联调凭据-214837', 'configJson': '******', 'deleted': 0, 'createdAt': '2026-10-31T13:49:40', 'updatedAt': '2026-10-31T13:49:40'}"
+        },
+        {
+          "name": "删除凭据",
+          "ok": true,
+          "detail": "0"
+        },
+        {
+          "name": "viewer 租户管理 → 403",
+          "ok": true,
+          "detail": "403 10403"
+        },
+        {
+          "name": "viewer 凭据管理 → 403",
+          "ok": true,
+          "detail": "403 10403"
+        }
+      ]
+    }
+  ],
+  "artifacts": {
+    "tokens_ok": {
+      "admin_acme": true,
+      "dev_acme": true,
+      "viewer_acme": true,
+      "admin_globex": true
+    },
+    "tokens": {
+      "admin_acme": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwidXNlcklkIjoxLCJ0ZW5hbnRJZCI6MSwidXNlcm5hbWUiOiJhZG1pbl9hY21lIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzkzNDU0NTE3LCJleHAiOjE3OTM0OTc3MTd9.8plRTOy5U44VmRE9aTfEU-Go5L_TF2L7RidY37ycnPWiMq4xB6-kiIDRSIZMzsOI",
+      "dev_acme": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwidXNlcklkIjoyLCJ0ZW5hbnRJZCI6MSwidXNlcm5hbWUiOiJkZXZfYWNtZSIsInJvbGUiOiJkZXYiLCJpYXQiOjE3OTM0NTQ1MTgsImV4cCI6MTc5MzQ5NzcxOH0.CCJMQZi4WwGUss2pzDPqDeiaxuBrBbjJ7dYbvzAgysVYQt4Oay0R9CnCiV7uimhb",
+      "viewer_acme": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIzIiwidXNlcklkIjozLCJ0ZW5hbnRJZCI6MSwidXNlcm5hbWUiOiJ2aWV3ZXJfYWNtZSIsInJvbGUiOiJ2aWV3ZXIiLCJpYXQiOjE3OTM0NTQ1MTgsImV4cCI6MTc5MzQ5NzcxOH0.uysLA4ueRJR66L5bQAJhZYlYSbZZlWul0JHcwSqUEChgKuh-f4CcTjvLS7egUz-K",
+      "admin_globex": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI0IiwidXNlcklkIjo0LCJ0ZW5hbnRJZCI6MiwidXNlcm5hbWUiOiJhZG1pbl9nbG9iZXgiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3OTM0NTQ1MTgsImV4cCI6MTc5MzQ5NzcxOH0.x4Ow7iZecM7GpDB0ZsQEgtRcpsR4r2u3uovk6aIewh1T3O_OS0faiFDkbKFzR22o"
+    },
+    "dsl_negative": {
+      "环形依赖": 20002,
+      "未知节点类型": 20003,
+      "连线指向不存在节点": 20005
+    },
+    "main_version": 20,
+    "main_exec": 30,
+    "sse_events": [
+      "connected",
+      "execution",
+      "node"
+    ],
+    "replay_exec": 32,
+    "delay_seconds": 3.46,
+    "fail_seconds": 7.11,
+    "agent_seconds": 27.78,
+    "llm_rows": 3,
+    "nl_version": 24,
+    "mqtt_latency": 0.03
+  }
+}

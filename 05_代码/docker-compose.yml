@@ -1,0 +1,94 @@
+# INF-1 saas-workflow-agent 本地栈（4 服务）
+# 中间件：rabbitmq / mosquitto（本机共享 MySQL@3310、Redis 不纳入 compose）
+# 应用：java-backend(8083) / python-agent(8085)
+# 启动：docker compose --env-file .env up -d --build
+# R1 降级：Qdrant 容器移除（模板检索降级为 MySQL flow_template like 查询）
+name: swa
+
+services:
+  java-backend:
+    build: ./backend
+    container_name: swa-java-backend
+    ports:
+      - "8083:8083"
+    environment:
+      SERVER_PORT: 8083
+      # 共享 MySQL/Redis 在本机宿主，容器内经 host.docker.internal 访问
+      MYSQL_HOST: ${MYSQL_HOST:-host.docker.internal}
+      MYSQL_PORT: ${MYSQL_PORT:-3310}
+      MYSQL_DB: ${MYSQL_DB:-swa}
+      MYSQL_USER: ${MYSQL_USER:-root}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-root}
+      REDIS_HOST: ${REDIS_HOST:-host.docker.internal}
+      # 本机 Redis 在 6379（6381 已作废，见 _失败日志 #29）
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      REDIS_DB: ${REDIS_DB:-3}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_PASS: ${RABBITMQ_PASS:-guest}
+      MQTT_BROKER_URL: tcp://mosquitto:1883
+      PYTHON_AGENT_URL: http://python-agent:8085
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET 必须配置（≥32 字节）}
+      INTERNAL_API_TOKEN: ${INTERNAL_API_TOKEN:?INTERNAL_API_TOKEN 必须配置}
+      CREDENTIAL_AES_KEY: ${CREDENTIAL_AES_KEY:?CREDENTIAL_AES_KEY 必须配置（16/24/32 字节或 64hex）}
+      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-https://api.deepseek.com}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DASHSCOPE_BASE_URL: ${DASHSCOPE_BASE_URL:-https://dashscope.aliyuncs.com/compatible-mode/v1}
+      DASHSCOPE_API_KEY: ${DASHSCOPE_API_KEY:-}
+      DASHSCOPE_MODEL: ${DASHSCOPE_MODEL:-qwen-plus}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    restart: unless-stopped
+
+  python-agent:
+    build: ./agent-python
+    container_name: swa-python-agent
+    ports:
+      - "8085:8085"
+    environment:
+      AGENT_HOST: 0.0.0.0
+      AGENT_PORT: 8085
+      JAVA_BACKEND_URL: http://java-backend:8083
+      INTERNAL_API_TOKEN: ${INTERNAL_API_TOKEN:?INTERNAL_API_TOKEN 必须配置}
+      LLM_TIMEOUT_SECONDS: ${LLM_TIMEOUT_SECONDS:-60}
+      LLM_TASK_TYPE: ${LLM_TASK_TYPE:-agent_reasoning}
+      LLM_MAX_TOKENS: ${LLM_MAX_TOKENS:-2048}
+      LLM_TEMPERATURE: ${LLM_TEMPERATURE:-0.3}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    depends_on:
+      - java-backend
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: swa-rabbitmq
+    ports:
+      # 5672/15672 被本机 rag-rabbitmq 占用（docker ps 实证），改映射 5673/15673
+      - "5673:5672"
+      - "15673:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-guest}
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: swa-mosquitto
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./infra/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    restart: unless-stopped

@@ -1,0 +1,7 @@
+# 第 8 步自动化测试依赖（安装到 agent-python 的 .venv 或独立虚拟环境）
+pytest==8.3.3
+allure-pytest==2.13.5
+httpx==0.28.1
+PyYAML==6.0.2
+paho-mqtt==2.1.0
+pymysql==1.1.1

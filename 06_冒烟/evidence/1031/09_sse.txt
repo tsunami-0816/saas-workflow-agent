@@ -1,0 +1,8 @@
+{
+  "lines": [
+    "event:connected",
+    "data:ok",
+    "event:node",
+    "data:{\"id\":39,\"tenantId\":1,\"executionId\":13,\"nodeId\":\"t1\",\"nodeType\":\"mqtt-trigger\",\"status\":\"SUCCESS\",\"inputJson\":\"{\\\"_payload\\\":{\\\"temp\\\":88},\\\"payload\\\":{\\\"temp\\\":88}}\",\"outputJson\":\"{\\\"payload\\\":{\\\"temp\\\":88}}\",\"retryLog\":\"[]\",\"errorMessage\":null,\"startedAt\":\"2026-10-31T18:52:00.9105976\",\"endedAt\":\"2026-10-31T18:52:00.919117\",\"deleted\":0,\"createdAt\":\"2026-10-31T10:52:00\",\"updatedAt\":\"2026-10-31T10:52:00\"}"
+  ]
+}

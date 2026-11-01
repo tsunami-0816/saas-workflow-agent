@@ -1,0 +1,23 @@
+{
+  "name": "swa-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build"
+  },
+  "dependencies": {
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0",
+    "pinia": "^2.1.7",
+    "element-plus": "^2.7.0",
+    "@antv/x6": "^2.18.1",
+    "axios": "^1.6.8"
+  },
+  "devDependencies": {
+    "vite": "^5.2.0",
+    "typescript": "~5.4.5",
+    "vue-tsc": "^2.0.0",
+    "@vitejs/plugin-vue": "^5.0.0"
+  }
+}

@@ -1,0 +1,15 @@
+﻿{
+    "code":  0,
+    "message":  "ok",
+    "data":  {
+                 "id":  3,
+                 "tenantId":  null,
+                 "workflowId":  3,
+                 "versionNo":  1,
+                 "dslJson":  "{\"nodes\":[{\"id\":\"t1\",\"type\":\"mqtt-trigger\",\"name\":\"æ¸©åº¦æ¶æ¯\",\"config\":{}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"è¶\u0085æ¸©å¤æ­\",\"config\":{\"expression\":\"t1.payload.temp \u003e 80\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"åè­¦\",\"config\":{\"url\":\"https://example.com/alarm\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"temp\\\":\\\"{{t1.payload.temp}}\\\"}\",\"timeoutMs\":10000}},{\"id\":\"d1\",\"type\":\"code\",\"name\":\"è®°å½æ¸©åº¦\",\"config\":{\"expression\":\"t1.payload.temp\"}}],\"edges\":[{\"source\":\"t1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"d1\",\"branch\":\"false\"}]}",
+                 "status":  "draft",
+                 "deleted":  null,
+                 "createdAt":  null,
+                 "updatedAt":  null
+             }
+}

@@ -1,0 +1,33 @@
+# 第 8 步自动化测试环境配置（端口口径见 05_代码/docker-compose.yml + WORKFLOW_端口分配表.md）
+# 密码不写死：从环境变量 SWA_TEST_PASSWORD 读取；未设置时回退到本项目种子账号的开发口令
+java_base: "http://localhost:8083"
+python_base: "http://localhost:8085"
+frontend_base: "http://localhost:5177"
+api_prefix: "/api/v1"
+timeout: 30
+
+password_env: "SWA_TEST_PASSWORD"
+password_default: "Swa@123456"
+
+accounts:
+  admin:  { username: "admin_acme",  role: "admin",  tenantId: 1 }
+  dev:    { username: "dev_acme",    role: "dev",    tenantId: 1 }
+  viewer: { username: "viewer_acme", role: "viewer", tenantId: 1 }
+  other:  { username: "dev_globex",  role: "dev",    tenantId: 2 }
+
+mysql:
+  host: "127.0.0.1"
+  port: 3310
+  # 与 05_代码/.env 的 MYSQL_USER/MYSQL_PASSWORD 保持一致（root/root 为 10-28 旧配置，已漂移）
+  user: "swa"
+  password: "swa123"
+  database: "swa"
+
+redis:
+  host: "127.0.0.1"
+  port: 6379
+  db: 0
+
+mqtt:
+  host: "127.0.0.1"
+  port: 1883

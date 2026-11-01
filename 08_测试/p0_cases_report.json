@@ -1,0 +1,67 @@
+{
+  "total": 10,
+  "passed": 10,
+  "failed": 0,
+  "cases": [
+    {
+      "id": "P0-001",
+      "name": "登录返回 token（dev 主账号）",
+      "passed": true,
+      "elapsed_ms": 76
+    },
+    {
+      "id": "P0-002",
+      "name": "未带 token 访问 /auth/me 返回 401",
+      "passed": true,
+      "elapsed_ms": 12
+    },
+    {
+      "id": "P0-003",
+      "name": "当前用户信息可读",
+      "passed": true,
+      "elapsed_ms": 2
+    },
+    {
+      "id": "P0-004",
+      "name": "流程列表可读（主流程入口）",
+      "passed": true,
+      "elapsed_ms": 10
+    },
+    {
+      "id": "P0-005",
+      "name": "已发布版本可触发执行（幂等键固定，重复跑返回同一实例）",
+      "passed": true,
+      "elapsed_ms": 20
+    },
+    {
+      "id": "P0-006",
+      "name": "执行列表可读（status 过滤）",
+      "passed": true,
+      "elapsed_ms": 7
+    },
+    {
+      "id": "P0-007",
+      "name": "额度接口可读（计量链路）",
+      "passed": true,
+      "elapsed_ms": 6
+    },
+    {
+      "id": "P0-008",
+      "name": "LLM 台账可读且已归租（M4）",
+      "passed": true,
+      "elapsed_ms": 7
+    },
+    {
+      "id": "P0-009",
+      "name": "查看者创建流程被 403 拦截（M8）",
+      "passed": true,
+      "elapsed_ms": 3
+    },
+    {
+      "id": "P0-010",
+      "name": "跨租户读取他租户流程被拒（M7）",
+      "passed": true,
+      "elapsed_ms": 6
+    }
+  ]
+}

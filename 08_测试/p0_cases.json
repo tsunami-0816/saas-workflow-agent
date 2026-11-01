@@ -1,0 +1,116 @@
+{
+  "auth": {
+    "dev": {
+      "url": "http://localhost:8083/api/v1/auth/login",
+      "body": {"username": "dev_acme", "password": "Swa@123456"},
+      "token_path": "data.token"
+    },
+    "viewer": {
+      "url": "http://localhost:8083/api/v1/auth/login",
+      "body": {"username": "viewer_acme", "password": "Swa@123456"},
+      "token_path": "data.token"
+    },
+    "other": {
+      "url": "http://localhost:8083/api/v1/auth/login",
+      "body": {"username": "dev_globex", "password": "Swa@123456"},
+      "token_path": "data.token"
+    }
+  },
+  "cases": [
+    {
+      "id": "P0-001",
+      "name": "登录返回 token（dev 主账号）",
+      "method": "POST",
+      "url": "http://localhost:8083/api/v1/auth/login",
+      "headers": {"Content-Type": "application/json"},
+      "body": {"username": "dev_acme", "password": "Swa@123456"},
+      "expect_status": 200,
+      "expect_json_contains": ["\"token\"", "\"tenantId\":1"]
+    },
+    {
+      "id": "P0-002",
+      "name": "未带 token 访问 /auth/me 返回 401",
+      "method": "GET",
+      "url": "http://localhost:8083/api/v1/auth/me",
+      "headers": {"Authorization": ""},
+      "expect_status": 401,
+      "expect_json_contains": []
+    },
+    {
+      "id": "P0-003",
+      "name": "当前用户信息可读",
+      "method": "GET",
+      "url": "http://localhost:8083/api/v1/auth/me",
+      "auth_as": "dev",
+      "expect_status": 200,
+      "expect_json_contains": ["\"role\":\"dev\""]
+    },
+    {
+      "id": "P0-004",
+      "name": "流程列表可读（主流程入口）",
+      "method": "GET",
+      "url": "http://localhost:8083/api/v1/workflows?pageNo=1&pageSize=20",
+      "auth_as": "dev",
+      "expect_status": 200,
+      "expect_json_contains": ["\"records\"", "\"total\""]
+    },
+    {
+      "id": "P0-005",
+      "name": "已发布版本可触发执行（幂等键固定，重复跑返回同一实例）",
+      "method": "POST",
+      "url": "http://localhost:8083/api/v1/executions",
+      "auth_as": "dev",
+      "headers": {"Content-Type": "application/json"},
+      "body": {"versionId": 4, "clientReqId": "p0-regression-fixed-001", "triggerPayload": "{\"temp\": 25}"},
+      "expect_status": 200,
+      "expect_json_contains": ["\"id\"", "\"status\""]
+    },
+    {
+      "id": "P0-006",
+      "name": "执行列表可读（status 过滤）",
+      "method": "GET",
+      "url": "http://localhost:8083/api/v1/executions?pageNo=1&pageSize=10&status=SUCCESS",
+      "auth_as": "dev",
+      "expect_status": 200,
+      "expect_json_contains": ["\"records\""]
+    },
+    {
+      "id": "P0-007",
+      "name": "额度接口可读（计量链路）",
+      "method": "GET",
+      "url": "http://localhost:8083/api/v1/quota",
+      "auth_as": "dev",
+      "expect_status": 200,
+      "expect_json_contains": ["\"tokenTotal\"", "\"tokenUsed\""]
+    },
+    {
+      "id": "P0-008",
+      "name": "LLM 台账可读且已归租（M4）",
+      "method": "GET",
+      "url": "http://localhost:8083/api/v1/quota/llm-calls?pageNo=1&pageSize=5",
+      "auth_as": "dev",
+      "expect_status": 200,
+      "expect_json_contains": ["\"provider\"", "\"promptTokens\""]
+    },
+    {
+      "id": "P0-009",
+      "name": "查看者创建流程被 403 拦截（M8）",
+      "method": "POST",
+      "url": "http://localhost:8083/api/v1/workflows",
+      "auth_as": "viewer",
+      "headers": {"Content-Type": "application/json"},
+      "body": {"name": "p0-viewer-should-fail"},
+      "expect_status": 403,
+      "expect_json_contains": ["10403"]
+    },
+    {
+      "id": "P0-010",
+      "name": "跨租户读取他租户流程被拒（M7）",
+      "method": "GET",
+      "url": "http://localhost:8083/api/v1/workflows/2",
+      "auth_as": "other",
+      "expect_status": 200,
+      "expect_json_contains": ["20001"]
+    }
+  ]
+}

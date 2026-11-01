@@ -1,0 +1,117 @@
+[
+  {
+    "case": "login_admin_acme",
+    "ok": true,
+    "detail": "http=200 code=0"
+  },
+  {
+    "case": "login_dev_acme",
+    "ok": true,
+    "detail": "http=200 code=0"
+  },
+  {
+    "case": "login_viewer_acme",
+    "ok": true,
+    "detail": "http=200 code=0"
+  },
+  {
+    "case": "login_viewer_globex",
+    "ok": true,
+    "detail": "http=200 code=0"
+  },
+  {
+    "case": "login_tokens",
+    "ok": true,
+    "detail": "got 4 tokens"
+  },
+  {
+    "case": "rbac_viewer_write_403",
+    "ok": true,
+    "detail": "http=403 code=10403"
+  },
+  {
+    "case": "workflow_create",
+    "ok": true,
+    "detail": "id=7"
+  },
+  {
+    "case": "bug001_tenantId_backfill",
+    "ok": true,
+    "detail": "tenantId=1"
+  },
+  {
+    "case": "cross_tenant_detail_invisible",
+    "ok": true,
+    "detail": "code=20001(不可见)"
+  },
+  {
+    "case": "cross_tenant_list_isolated",
+    "ok": true,
+    "detail": "globex 列表不含 acme 流程"
+  },
+  {
+    "case": "version_save",
+    "ok": true,
+    "detail": "versionId=7"
+  },
+  {
+    "case": "publish",
+    "ok": true,
+    "detail": "code=0"
+  },
+  {
+    "case": "exec_true_branch",
+    "ok": true,
+    "detail": "exec=11 st=SUCCESS h1=SUCCESS d1=SKIPPED"
+  },
+  {
+    "case": "idempotent_same_reqid",
+    "ok": true,
+    "detail": "first=11 again=11"
+  },
+  {
+    "case": "exec_false_branch",
+    "ok": true,
+    "detail": "exec=12 st=SUCCESS h1=SKIPPED d1=SUCCESS"
+  },
+  {
+    "case": "sse_events",
+    "ok": true,
+    "detail": "got 4 lines"
+  },
+  {
+    "case": "nodes_snapshot",
+    "ok": true,
+    "detail": "nodes=4"
+  },
+  {
+    "case": "replay",
+    "ok": true,
+    "detail": "replay=14 st=SUCCESS"
+  },
+  {
+    "case": "mqtt_sub_create",
+    "ok": false,
+    "detail": "sub=None"
+  },
+  {
+    "case": "mqtt_e2e",
+    "ok": false,
+    "detail": "NO_NEW_MQTT_EXEC within 10s"
+  },
+  {
+    "case": "nl_draft_dashscope",
+    "ok": true,
+    "detail": "code=0 versionId=8 dsl_len=547"
+  },
+  {
+    "case": "agent_e2e",
+    "ok": true,
+    "detail": "exec=15 st=SUCCESS a1=SUCCESS reasoning_steps=3"
+  },
+  {
+    "case": "llm_call_log_dashscope",
+    "ok": true,
+    "detail": "code=0 dashscope_in_records=True"
+  }
+]

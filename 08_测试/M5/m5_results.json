@@ -1,0 +1,864 @@
+{
+  "generatedAt": "2026-10-31 22:25:54",
+  "success": 17,
+  "total": 20,
+  "rows": [
+    {
+      "index": 1,
+      "text": "设备上报温度，超过 80 度调用告警接口，否则记录一条正常日志",
+      "elapsedSec": 4.47,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "t1",
+          "type": "mqtt-trigger",
+          "name": "温度消息"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "超温判断"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "告警"
+        },
+        {
+          "id": "d1",
+          "type": "code",
+          "name": "记录正常日志"
+        }
+      ],
+      "edges": [
+        {
+          "source": "t1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "h1",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "d1",
+          "branch": "false"
+        }
+      ],
+      "nodeCount": 4,
+      "edgeCount": 3,
+      "dslJson": "{\"nodes\":[{\"id\":\"t1\",\"type\":\"mqtt-trigger\",\"name\":\"温度消息\",\"config\":{}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"超温判断\",\"config\":{\"expression\":\"t1.payload.temp > 80\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"告警\",\"config\":{\"url\":\"https://example.com/alarm\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"temp\\\":\\\"{{t1.payload.temp}}\\\"}\",\"timeoutMs\":10000}},{\"id\":\"d1\",\"type\":\"code\",\"name\":\"记录正常日志\",\"config\":{\"expression\":\"\\\"normal log: temp=\\\" + t1.payload.temp\"}}],\"edges\":[{\"source\":\"t1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"d1\",\"branch\":\"false\"}]}"
+    },
+    {
+      "index": 2,
+      "text": "收到订单消息后先等待 5 秒，再调用库存扣减接口，库存不足就记录错误",
+      "elapsedSec": 9.92,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "o1",
+          "type": "mqtt-trigger",
+          "name": "订单消息"
+        },
+        {
+          "id": "d1",
+          "type": "delay",
+          "name": "等待5秒"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "库存检查"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "库存扣减"
+        },
+        {
+          "id": "cd1",
+          "type": "code",
+          "name": "记录错误"
+        }
+      ],
+      "edges": [
+        {
+          "source": "o1",
+          "target": "d1"
+        },
+        {
+          "source": "d1",
+          "target": "h1"
+        },
+        {
+          "source": "h1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "cd1",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "cd1",
+          "branch": "false"
+        }
+      ],
+      "nodeCount": 5,
+      "edgeCount": 5,
+      "dslJson": "{\"nodes\":[{\"id\":\"o1\",\"type\":\"mqtt-trigger\",\"name\":\"订单消息\",\"config\":{}},{\"id\":\"d1\",\"type\":\"delay\",\"name\":\"等待5秒\",\"config\":{\"delayMs\":5000}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"库存检查\",\"config\":{\"expression\":\"h1.status != 200\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"库存扣减\",\"config\":{\"url\":\"https://example.com/inventory/deduct\",\"method\":\"POST\",\"bodyTemplate\":\"{{o1.payload}}\",\"timeoutMs\":10000}},{\"id\":\"cd1\",\"type\":\"code\",\"name\":\"记录错误\",\"config\":{\"expression\":\"\\\"库存不足: \\\" + o1.payload.orderId\"}}],\"edges\":[{\"source\":\"o1\",\"target\":\"d1\"},{\"source\":\"d1\",\"target\":\"h1\"},{\"source\":\"h1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"cd1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"cd1\",\"branch\":\"false\"}]}"
+    },
+    {
+      "index": 3,
+      "text": "每分钟检查一次服务健康状态，健康则继续，异常则调用告警回调",
+      "elapsedSec": 9.78,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "n1",
+          "type": "http",
+          "name": "检查健康状态"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "健康判断"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "告警回调"
+        },
+        {
+          "id": "d1",
+          "type": "delay",
+          "name": "等待一分钟"
+        }
+      ],
+      "edges": [
+        {
+          "source": "n1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "d1",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "h1",
+          "branch": "false"
+        },
+        {
+          "source": "h1",
+          "target": "d1"
+        }
+      ],
+      "nodeCount": 4,
+      "edgeCount": 4,
+      "dslJson": "{\"nodes\":[{\"id\":\"n1\",\"type\":\"http\",\"name\":\"检查健康状态\",\"config\":{\"url\":\"https://example.com/health\",\"method\":\"GET\",\"timeoutMs\":10000}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"健康判断\",\"config\":{\"expression\":\"n1.status == 200\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"告警回调\",\"config\":{\"url\":\"https://example.com/callback\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"status\\\":\\\"unhealthy\\\",\\\"code\\\":\\\"{{n1.status}}\\\"}\",\"timeoutMs\":10000}},{\"id\":\"d1\",\"type\":\"delay\",\"name\":\"等待一分钟\",\"config\":{\"delayMs\":60000}}],\"edges\":[{\"source\":\"n1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"d1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"false\"},{\"source\":\"h1\",\"target\":\"d1\"}]}"
+    },
+    {
+      "index": 4,
+      "text": "先调用 A 接口获取用户信息，再调用 B 接口拉取订单，最后让智能排查订单异常原因",
+      "elapsedSec": 3.15,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "n1",
+          "type": "http",
+          "name": "获取用户信息"
+        },
+        {
+          "id": "n2",
+          "type": "http",
+          "name": "拉取订单"
+        },
+        {
+          "id": "n3",
+          "type": "agent",
+          "name": "智能排查订单异常原因"
+        }
+      ],
+      "edges": [
+        {
+          "source": "n1",
+          "target": "n2"
+        },
+        {
+          "source": "n2",
+          "target": "n3"
+        }
+      ],
+      "nodeCount": 3,
+      "edgeCount": 2,
+      "dslJson": "{\"nodes\":[{\"id\":\"n1\",\"type\":\"http\",\"name\":\"获取用户信息\",\"config\":{\"url\":\"A\",\"method\":\"GET\",\"timeoutMs\":10000}},{\"id\":\"n2\",\"type\":\"http\",\"name\":\"拉取订单\",\"config\":{\"url\":\"B\",\"method\":\"GET\",\"timeoutMs\":10000}},{\"id\":\"n3\",\"type\":\"agent\",\"name\":\"智能排查订单异常原因\",\"config\":{\"task\":\"排查订单异常原因\",\"constraints\":{}}}],\"edges\":[{\"source\":\"n1\",\"target\":\"n2\"},{\"source\":\"n2\",\"target\":\"n3\"}]}"
+    },
+    {
+      "index": 5,
+      "text": "设备离线超过 10 分钟就发通知给运维，未超过则忽略",
+      "elapsedSec": 4.01,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "m1",
+          "type": "mqtt-trigger",
+          "name": "设备状态"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "离线超时判断"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "发送运维通知"
+        }
+      ],
+      "edges": [
+        {
+          "source": "m1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "h1",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "h1",
+          "branch": "false"
+        }
+      ],
+      "nodeCount": 3,
+      "edgeCount": 3,
+      "dslJson": "{\"nodes\":[{\"id\":\"m1\",\"type\":\"mqtt-trigger\",\"name\":\"设备状态\",\"config\":{}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"离线超时判断\",\"config\":{\"expression\":\"m1.payload.offlineDuration > 600000\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"发送运维通知\",\"config\":{\"url\":\"https://example.com/notify\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"message\\\":\\\"Device offline for over 10 minutes: {{m1.payload.deviceId}}\\\"}\",\"timeoutMs\":10000}}],\"edges\":[{\"source\":\"m1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"false\"}]}"
+    },
+    {
+      "index": 6,
+      "text": "收到支付成功消息后，先调用发票服务，然后延时 2 秒再推送消息给客户",
+      "elapsedSec": 4.4,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "p1",
+          "type": "mqtt-trigger",
+          "name": "支付成功消息"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "调用发票服务"
+        },
+        {
+          "id": "d1",
+          "type": "delay",
+          "name": "延时2秒"
+        },
+        {
+          "id": "h2",
+          "type": "http",
+          "name": "推送消息给客户"
+        }
+      ],
+      "edges": [
+        {
+          "source": "p1",
+          "target": "h1"
+        },
+        {
+          "source": "h1",
+          "target": "d1"
+        },
+        {
+          "source": "d1",
+          "target": "h2"
+        }
+      ],
+      "nodeCount": 4,
+      "edgeCount": 3,
+      "dslJson": "{\"nodes\":[{\"id\":\"p1\",\"type\":\"mqtt-trigger\",\"name\":\"支付成功消息\",\"config\":{}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"调用发票服务\",\"config\":{\"url\":\"https://example.com/invoice\",\"method\":\"POST\",\"bodyTemplate\":\"{{p1.payload}}\",\"timeoutMs\":10000}},{\"id\":\"d1\",\"type\":\"delay\",\"name\":\"延时2秒\",\"config\":{\"delayMs\":2000}},{\"id\":\"h2\",\"type\":\"http\",\"name\":\"推送消息给客户\",\"config\":{\"url\":\"https://example.com/notify\",\"method\":\"POST\",\"bodyTemplate\":\"{{p1.payload}}\",\"timeoutMs\":10000}}],\"edges\":[{\"source\":\"p1\",\"target\":\"h1\"},{\"source\":\"h1\",\"target\":\"d1\"},{\"source\":\"d1\",\"target\":\"h2\"}]}"
+    },
+    {
+      "index": 7,
+      "text": "采集到的电压低于 200 时触发降压告警，高于 240 时触发过压告警，其余情况记录",
+      "elapsedSec": 7.12,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "m1",
+          "type": "mqtt-trigger",
+          "name": "电压消息"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "电压判断"
+        },
+        {
+          "id": "c2",
+          "type": "condition",
+          "name": "过压判断"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "降压告警"
+        },
+        {
+          "id": "h2",
+          "type": "http",
+          "name": "过压告警"
+        },
+        {
+          "id": "d1",
+          "type": "code",
+          "name": "记录电压"
+        }
+      ],
+      "edges": [
+        {
+          "source": "m1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "h1",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "c2",
+          "branch": "false"
+        },
+        {
+          "source": "c2",
+          "target": "h2",
+          "branch": "true"
+        },
+        {
+          "source": "c2",
+          "target": "d1",
+          "branch": "false"
+        }
+      ],
+      "nodeCount": 6,
+      "edgeCount": 5,
+      "dslJson": "{\"nodes\":[{\"id\":\"m1\",\"type\":\"mqtt-trigger\",\"name\":\"电压消息\",\"config\":{}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"电压判断\",\"config\":{\"expression\":\"m1.payload.voltage < 200\"}},{\"id\":\"c2\",\"type\":\"condition\",\"name\":\"过压判断\",\"config\":{\"expression\":\"m1.payload.voltage > 240\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"降压告警\",\"config\":{\"url\":\"https://example.com/alarm\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"type\\\":\\\"under_voltage\\\",\\\"voltage\\\":\\\"{{m1.payload.voltage}}\\\"}\",\"timeoutMs\":10000}},{\"id\":\"h2\",\"type\":\"http\",\"name\":\"过压告警\",\"config\":{\"url\":\"https://example.com/alarm\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"type\\\":\\\"over_voltage\\\",\\\"voltage\\\":\\\"{{m1.payload.voltage}}\\\"}\",\"timeoutMs\":10000}},{\"id\":\"d1\",\"type\":\"code\",\"name\":\"记录电压\",\"config\":{\"expression\":\"m1.payload.voltage\"}}],\"edges\":[{\"source\":\"m1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"c2\",\"branch\":\"false\"},{\"source\":\"c2\",\"target\":\"h2\",\"branch\":\"true\"},{\"source\":\"c2\",\"target\":\"d1\",\"branch\":\"false\"}]}"
+    },
+    {
+      "index": 8,
+      "text": "用户注册完成后，调用短信服务发送欢迎短信，失败重试",
+      "elapsedSec": 11.37,
+      "httpStatus": 200,
+      "code": 40003,
+      "message": "NL 生成流程失败: DSL 校验失败：节点入度/出度不合法: condition 节点需同时覆盖 true/false 分支: c1",
+      "body": "{\"code\": 40003, \"message\": \"NL 生成流程失败: DSL 校验失败：节点入度/出度不合法: condition 节点需同时覆盖 true/false 分支: c1\", \"data\": null}"
+    },
+    {
+      "index": 9,
+      "text": "先调用天气接口，温度低于 5 度就调用供暖控制接口，否则记录温度",
+      "elapsedSec": 4.36,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "n1",
+          "type": "http",
+          "name": "查询天气"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "低温判断"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "供暖控制"
+        },
+        {
+          "id": "d1",
+          "type": "code",
+          "name": "记录温度"
+        }
+      ],
+      "edges": [
+        {
+          "source": "n1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "h1",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "d1",
+          "branch": "false"
+        }
+      ],
+      "nodeCount": 4,
+      "edgeCount": 3,
+      "dslJson": "{\"nodes\":[{\"id\":\"n1\",\"type\":\"http\",\"name\":\"查询天气\",\"config\":{\"url\":\"https://example.com/weather\",\"method\":\"GET\",\"timeoutMs\":10000}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"低温判断\",\"config\":{\"expression\":\"n1.response.temperature < 5\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"供暖控制\",\"config\":{\"url\":\"https://example.com/heating\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"action\\\":\\\"enable\\\"}\",\"timeoutMs\":10000}},{\"id\":\"d1\",\"type\":\"code\",\"name\":\"记录温度\",\"config\":{\"expression\":\"n1.response.temperature\"}}],\"edges\":[{\"source\":\"n1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"d1\",\"branch\":\"false\"}]}"
+    },
+    {
+      "index": 10,
+      "text": "订单金额大于 1000 元走人工审核接口，否则自动通过",
+      "elapsedSec": 4.67,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "n1",
+          "type": "mqtt-trigger",
+          "name": "订单消息"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "金额判断"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "人工审核"
+        },
+        {
+          "id": "d1",
+          "type": "code",
+          "name": "自动通过"
+        }
+      ],
+      "edges": [
+        {
+          "source": "n1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "h1",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "d1",
+          "branch": "false"
+        }
+      ],
+      "nodeCount": 4,
+      "edgeCount": 3,
+      "dslJson": "{\"nodes\":[{\"id\":\"n1\",\"type\":\"mqtt-trigger\",\"name\":\"订单消息\",\"config\":{}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"金额判断\",\"config\":{\"expression\":\"n1.payload.amount > 1000\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"人工审核\",\"config\":{\"url\":\"https://example.com/review\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"order_id\\\":\\\"{{n1.payload.order_id}}\\\",\\\"amount\\\":\\\"{{n1.payload.amount}}\\\"}\",\"timeoutMs\":10000}},{\"id\":\"d1\",\"type\":\"code\",\"name\":\"自动通过\",\"config\":{\"expression\":\"{status: 'approved', order_id: n1.payload.order_id}\"}}],\"edges\":[{\"source\":\"n1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"d1\",\"branch\":\"false\"}]}"
+    },
+    {
+      "index": 11,
+      "text": "收到传感器数据后，让智能体分析是否需要维修，需要则调用派单接口",
+      "elapsedSec": 8.12,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "s1",
+          "type": "mqtt-trigger",
+          "name": "传感器数据"
+        },
+        {
+          "id": "a1",
+          "type": "agent",
+          "name": "维修分析"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "需维修判断"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "派单"
+        }
+      ],
+      "edges": [
+        {
+          "source": "s1",
+          "target": "a1"
+        },
+        {
+          "source": "a1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "h1",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "h1",
+          "branch": "false"
+        }
+      ],
+      "nodeCount": 4,
+      "edgeCount": 4,
+      "dslJson": "{\"nodes\":[{\"id\":\"s1\",\"type\":\"mqtt-trigger\",\"name\":\"传感器数据\",\"config\":{}},{\"id\":\"a1\",\"type\":\"agent\",\"name\":\"维修分析\",\"config\":{\"task\":\"分析传感器数据是否需要维修\",\"constraints\":{}}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"需维修判断\",\"config\":{\"expression\":\"a1.result == 'yes'\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"派单\",\"config\":{\"url\":\"https://example.com/dispatch\",\"method\":\"POST\",\"bodyTemplate\":\"{{a1.result}}\",\"timeoutMs\":10000}}],\"edges\":[{\"source\":\"s1\",\"target\":\"a1\"},{\"source\":\"a1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"false\"}]}"
+    },
+    {
+      "index": 12,
+      "text": "设备上报湿度，超过 90 调用除湿机接口，30 到 90 之间记录数据",
+      "elapsedSec": 11.14,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "m1",
+          "type": "mqtt-trigger",
+          "name": "湿度消息"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "湿度判断"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "启动除湿机"
+        },
+        {
+          "id": "c2",
+          "type": "condition",
+          "name": "中湿度判断"
+        },
+        {
+          "id": "d1",
+          "type": "code",
+          "name": "记录湿度数据"
+        }
+      ],
+      "edges": [
+        {
+          "source": "m1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "h1",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "c2",
+          "branch": "false"
+        },
+        {
+          "source": "c2",
+          "target": "d1",
+          "branch": "true"
+        },
+        {
+          "source": "c2",
+          "target": "d1",
+          "branch": "false"
+        }
+      ],
+      "nodeCount": 5,
+      "edgeCount": 5,
+      "dslJson": "{\"nodes\":[{\"id\":\"m1\",\"type\":\"mqtt-trigger\",\"name\":\"湿度消息\",\"config\":{}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"湿度判断\",\"config\":{\"expression\":\"m1.payload.humidity > 90\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"启动除湿机\",\"config\":{\"url\":\"https://example.com/dehumidify\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"humidity\\\":\\\"{{m1.payload.humidity}}\\\"}\",\"timeoutMs\":10000}},{\"id\":\"c2\",\"type\":\"condition\",\"name\":\"中湿度判断\",\"config\":{\"expression\":\"m1.payload.humidity >= 30 && m1.payload.humidity <= 90\"}},{\"id\":\"d1\",\"type\":\"code\",\"name\":\"记录湿度数据\",\"config\":{\"expression\":\"m1.payload.humidity\"}}],\"edges\":[{\"source\":\"m1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"c2\",\"branch\":\"false\"},{\"source\":\"c2\",\"target\":\"d1\",\"branch\":\"true\"},{\"source\":\"c2\",\"target\":\"d1\",\"branch\":\"false\"}]}"
+    },
+    {
+      "index": 13,
+      "text": "每天定时拉取销售数据，拉取失败则等待 10 秒后重试",
+      "elapsedSec": 6.95,
+      "httpStatus": 200,
+      "code": 40003,
+      "message": "NL 生成流程失败: DSL 校验失败：存在环形依赖",
+      "body": "{\"code\": 40003, \"message\": \"NL 生成流程失败: DSL 校验失败：存在环形依赖\", \"data\": null}"
+    },
+    {
+      "index": 14,
+      "text": "收到告警消息，先智能体判断严重程度，严重则电话告警，否则发邮件",
+      "elapsedSec": 12.54,
+      "httpStatus": 200,
+      "code": 40003,
+      "message": "NL 生成流程失败: DSL 校验失败: JSON 解析失败: Cannot construct instance of `com.swa.backend.engine.dsl.DslDocument$Node` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('h1')\n at [Source: (String)\"{\"nodes\":[{\"id\":\"a1\",\"type\":\"mqtt-trigger\",\"name\":\"告警消息\",\"config\":{}},{\"id\":\"g1\",\"type\":\"agent\",\"name\":\"判断严重程度\",\"config\":{\"task\":\"分析告警消息内容，判断严重程度等级（高/中/低）\",\"constraints\":{}}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"严重等级判断\",\"config\":{\"expression\":\"g1.severity == '高'\"}},\"h1\":{\"id\":\"h1\",\"type\":\"http\",\"name\":\"电话告警\",\"config\":{\"url\":\"https://api.example.com/call\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"message\\\":\\\"{{a1.payload}}\\\"}\",\"timeoutMs\":10000}},{\"id\":\"h2\",\"type\":\"http\",\"name\":\"邮件告警\",\"config\":{\"url\":\"\"[truncated 314 chars]; line: 1, column: 268] (through reference chain: com.swa.backend.engine.dsl.DslDocument[\"nodes\"]->java.util.ArrayList[3])",
+      "body": "{\"code\": 40003, \"message\": \"NL 生成流程失败: DSL 校验失败: JSON 解析失败: Cannot construct instance of `com.swa.backend.engine.dsl.DslDocument$Node` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('h1')\\n at [Source: (String)\\\"{\\\"nodes\\\":[{\\\"id\\\":\\\"a1\\\",\\\"type\\\":\\\"mqtt-trigger\\\",\\\"name\\\":\\\"告警消息\\\",\\\"config\\\":{}},{\\\"id\\\":\\\"g1\\\",\\\"type\\\":\\\"agent\\\",\\\"name\\\":\\\"判断严重程度\\\",\\\"config\\\":{\\\"task\\\":\\\"分析告警消息内容，判断严重程度等级（高/中/低）\\\",\\\"constraints\\\":{}}},{\\\"i"
+    },
+    {
+      "index": 15,
+      "text": "调用设备状态接口，返回离线则调用重启接口",
+      "elapsedSec": 3.78,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "n1",
+          "type": "http",
+          "name": "查询设备状态"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "判断是否离线"
+        },
+        {
+          "id": "n2",
+          "type": "http",
+          "name": "重启设备"
+        }
+      ],
+      "edges": [
+        {
+          "source": "n1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "n2",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "n2",
+          "branch": "false"
+        }
+      ],
+      "nodeCount": 3,
+      "edgeCount": 3,
+      "dslJson": "{\"nodes\":[{\"id\":\"n1\",\"type\":\"http\",\"name\":\"查询设备状态\",\"config\":{\"url\":\"https://example.com/device/status\",\"method\":\"GET\",\"timeoutMs\":10000}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"判断是否离线\",\"config\":{\"expression\":\"n1.response.body.status == 'offline'\"}},{\"id\":\"n2\",\"type\":\"http\",\"name\":\"重启设备\",\"config\":{\"url\":\"https://example.com/device/restart\",\"method\":\"POST\",\"timeoutMs\":10000}}],\"edges\":[{\"source\":\"n1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"n2\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"n2\",\"branch\":\"false\"}]}"
+    },
+    {
+      "index": 16,
+      "text": "先等待 3 秒，再调用外部接口提交工单，提交成功后记录工单号",
+      "elapsedSec": 3.11,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "d1",
+          "type": "delay",
+          "name": "等待3秒"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "提交工单"
+        },
+        {
+          "id": "c1",
+          "type": "code",
+          "name": "记录工单号"
+        }
+      ],
+      "edges": [
+        {
+          "source": "d1",
+          "target": "h1"
+        },
+        {
+          "source": "h1",
+          "target": "c1"
+        }
+      ],
+      "nodeCount": 3,
+      "edgeCount": 2,
+      "dslJson": "{\"nodes\":[{\"id\":\"d1\",\"type\":\"delay\",\"name\":\"等待3秒\",\"config\":{\"delayMs\":3000}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"提交工单\",\"config\":{\"url\":\"https://example.com/ticket\",\"method\":\"POST\",\"timeoutMs\":10000}},{\"id\":\"c1\",\"type\":\"code\",\"name\":\"记录工单号\",\"config\":{\"expression\":\"h1.body.id\"}}],\"edges\":[{\"source\":\"d1\",\"target\":\"h1\"},{\"source\":\"h1\",\"target\":\"c1\"}]}"
+    },
+    {
+      "index": 17,
+      "text": "收到消息后判断等级是否为 P0，是则立即调用电话告警接口，否则记录",
+      "elapsedSec": 4.14,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "m1",
+          "type": "mqtt-trigger",
+          "name": "消息接收"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "P0等级判断"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "电话告警"
+        },
+        {
+          "id": "d1",
+          "type": "code",
+          "name": "记录"
+        }
+      ],
+      "edges": [
+        {
+          "source": "m1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "h1",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "d1",
+          "branch": "false"
+        }
+      ],
+      "nodeCount": 4,
+      "edgeCount": 3,
+      "dslJson": "{\"nodes\":[{\"id\":\"m1\",\"type\":\"mqtt-trigger\",\"name\":\"消息接收\",\"config\":{}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"P0等级判断\",\"config\":{\"expression\":\"m1.payload.level == 'P0'\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"电话告警\",\"config\":{\"url\":\"https://example.com/phone-alarm\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"level\\\":\\\"{{m1.payload.level}}\\\"}\",\"timeoutMs\":10000}},{\"id\":\"d1\",\"type\":\"code\",\"name\":\"记录\",\"config\":{\"expression\":\"m1.payload\"}}],\"edges\":[{\"source\":\"m1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"d1\",\"branch\":\"false\"}]}"
+    },
+    {
+      "index": 18,
+      "text": "拉取库存接口，库存小于 10 调用补货接口，否则记录库存",
+      "elapsedSec": 4.62,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "n1",
+          "type": "http",
+          "name": "拉取库存"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "库存判断"
+        },
+        {
+          "id": "h1",
+          "type": "http",
+          "name": "补货"
+        },
+        {
+          "id": "d1",
+          "type": "code",
+          "name": "记录库存"
+        }
+      ],
+      "edges": [
+        {
+          "source": "n1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "h1",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "d1",
+          "branch": "false"
+        }
+      ],
+      "nodeCount": 4,
+      "edgeCount": 3,
+      "dslJson": "{\"nodes\":[{\"id\":\"n1\",\"type\":\"http\",\"name\":\"拉取库存\",\"config\":{\"url\":\"https://example.com/inventory\",\"method\":\"GET\",\"timeoutMs\":10000}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"库存判断\",\"config\":{\"expression\":\"n1.response.body.stock < 10\"}},{\"id\":\"h1\",\"type\":\"http\",\"name\":\"补货\",\"config\":{\"url\":\"https://example.com/restock\",\"method\":\"POST\",\"bodyTemplate\":\"{\\\"stock\\\":\\\"{{n1.response.body.stock}}\\\"}\",\"timeoutMs\":10000}},{\"id\":\"d1\",\"type\":\"code\",\"name\":\"记录库存\",\"config\":{\"expression\":\"n1.response.body.stock\"}}],\"edges\":[{\"source\":\"n1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"h1\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"d1\",\"branch\":\"false\"}]}"
+    },
+    {
+      "index": 19,
+      "text": "把设备上报的数据交给智能体做异常诊断，输出诊断报告",
+      "elapsedSec": 1.87,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "n1",
+          "type": "mqtt-trigger",
+          "name": "设备数据"
+        },
+        {
+          "id": "a1",
+          "type": "agent",
+          "name": "异常诊断"
+        }
+      ],
+      "edges": [
+        {
+          "source": "n1",
+          "target": "a1"
+        }
+      ],
+      "nodeCount": 2,
+      "edgeCount": 1,
+      "dslJson": "{\"nodes\":[{\"id\":\"n1\",\"type\":\"mqtt-trigger\",\"name\":\"设备数据\",\"config\":{}},{\"id\":\"a1\",\"type\":\"agent\",\"name\":\"异常诊断\",\"config\":{\"task\":\"对设备上报的数据进行异常诊断，输出诊断报告\",\"constraints\":{}}}],\"edges\":[{\"source\":\"n1\",\"target\":\"a1\"}]}"
+    },
+    {
+      "index": 20,
+      "text": "先调用登录校验接口，失败则直接结束，成功则继续调用数据查询接口",
+      "elapsedSec": 7.26,
+      "httpStatus": 200,
+      "code": 0,
+      "message": "ok",
+      "nodes": [
+        {
+          "id": "n1",
+          "type": "http",
+          "name": "登录校验"
+        },
+        {
+          "id": "c1",
+          "type": "condition",
+          "name": "校验成功判断"
+        },
+        {
+          "id": "n2",
+          "type": "http",
+          "name": "数据查询"
+        }
+      ],
+      "edges": [
+        {
+          "source": "n1",
+          "target": "c1"
+        },
+        {
+          "source": "c1",
+          "target": "n2",
+          "branch": "true"
+        },
+        {
+          "source": "c1",
+          "target": "n2",
+          "branch": "false"
+        }
+      ],
+      "nodeCount": 3,
+      "edgeCount": 3,
+      "dslJson": "{\"nodes\":[{\"id\":\"n1\",\"type\":\"http\",\"name\":\"登录校验\",\"config\":{\"url\":\"https://example.com/login\",\"method\":\"POST\",\"timeoutMs\":10000}},{\"id\":\"c1\",\"type\":\"condition\",\"name\":\"校验成功判断\",\"config\":{\"expression\":\"n1.status == 200\"}},{\"id\":\"n2\",\"type\":\"http\",\"name\":\"数据查询\",\"config\":{\"url\":\"https://example.com/data\",\"method\":\"GET\",\"timeoutMs\":10000}}],\"edges\":[{\"source\":\"n1\",\"target\":\"c1\"},{\"source\":\"c1\",\"target\":\"n2\",\"branch\":\"true\"},{\"source\":\"c1\",\"target\":\"n2\",\"branch\":\"false\"}]}"
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "exec": {
+    "code": 0,
+    "message": "ok",
+    "data": {
+      "id": 12,
+      "tenantId": 1,
+      "versionId": 7,
+      "userId": 2,
+      "status": "SUCCESS",
+      "triggerType": "manual",
+      "triggerPayload": "{\"temp\": 60}",
+      "failReason": null,
+      "startedAt": "2026-10-31T18:52:00",
+      "endedAt": "2026-10-31T18:52:00",
+      "deleted": 0,
+      "createdAt": "2026-10-31T10:51:59",
+      "updatedAt": "2026-10-31T10:51:59"
+    }
+  },
+  "nodes": {
+    "t1": {
+      "id": 35,
+      "tenantId": 1,
+      "executionId": 12,
+      "nodeId": "t1",
+      "nodeType": "mqtt-trigger",
+      "status": "SUCCESS",
+      "inputJson": {
+        "_payload": {
+          "temp": 60
+        },
+        "payload": {
+          "temp": 60
+        }
+      },
+      "outputJson": {
+        "payload": {
+          "temp": 60
+        }
+      },
+      "retryLog": "[]",
+      "errorMessage": null,
+      "startedAt": "2026-10-31T18:52:00",
+      "endedAt": "2026-10-31T18:52:00",
+      "deleted": 0,
+      "createdAt": "2026-10-31T10:51:59",
+      "updatedAt": "2026-10-31T10:51:59"
+    },
+    "c1": {
+      "id": 36,
+      "tenantId": 1,
+      "executionId": 12,
+      "nodeId": "c1",
+      "nodeType": "condition",
+      "status": "SUCCESS",
+      "inputJson": {
+        "_payload": {
+          "temp": 60
+        },
+        "payload": {
+          "temp": 60
+        },
+        "t1": {
+          "payload": {
+            "temp": 60
+          }
+        }
+      },
+      "outputJson": {
+        "branch": false
+      },
+      "retryLog": "[]",
+      "errorMessage": null,
+      "startedAt": "2026-10-31T18:52:00",
+      "endedAt": "2026-10-31T18:52:00",
+      "deleted": 0,
+      "createdAt": "2026-10-31T10:51:59",
+      "updatedAt": "2026-10-31T10:51:59"
+    },
+    "h1": {
+      "id": 37,
+      "tenantId": 1,
+      "executionId": 12,
+      "nodeId": "h1",
+      "nodeType": "http",
+      "status": "SKIPPED",
+      "inputJson": null,
+      "outputJson": null,
+      "retryLog": null,
+      "errorMessage": null,
+      "startedAt": null,
+      "endedAt": "2026-10-31T18:52:00",
+      "deleted": 0,
+      "createdAt": "2026-10-31T10:51:59",
+      "updatedAt": "2026-10-31T10:51:59"
+    },
+    "d1": {
+      "id": 38,
+      "tenantId": 1,
+      "executionId": 12,
+      "nodeId": "d1",
+      "nodeType": "code",
+      "status": "SUCCESS",
+      "inputJson": {
+        "_payload": {
+          "temp": 60
+        },
+        "payload": {
+          "temp": 60
+        },
+        "t1": {
+          "payload": {
+            "temp": 60
+          }
+        },
+        "c1": {
+          "branch": false
+        }
+      },
+      "outputJson": {
+        "result": 60
+      },
+      "retryLog": "[]",
+      "errorMessage": null,
+      "startedAt": "2026-10-31T18:52:00",
+      "endedAt": "2026-10-31T18:52:00",
+      "deleted": 0,
+      "createdAt": "2026-10-31T10:51:59",
+      "updatedAt": "2026-10-31T10:51:59"
+    }
+  }
+}
